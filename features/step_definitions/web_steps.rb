@@ -87,10 +87,12 @@ When /^(?:|I )select "([^"]*)" from "([^"]*)"$/ do |value, field|
 end
 
 When /^(?:|I )check "([^"]*)"$/ do |field|
+
   check(field)
 end
 
 When /^(?:|I )uncheck "([^"]*)"$/ do |field|
+
   uncheck(field)
 end
 
@@ -121,20 +123,25 @@ Then /^(?:|I )should see \/([^\/]*)\/$/ do |regexp|
 end
 
 Then /^(?:|I )should not see "([^"]*)"$/ do |text|
+p "128"
   if page.respond_to? :should
     page.should have_no_content(text)
+    p "128!"
   else
     assert page.has_no_content?(text)
+    p "128?"
   end
 end
 
 Then /^(?:|I )should not see \/([^\/]*)\/$/ do |regexp|
   regexp = Regexp.new(regexp)
-
+p "regexp 128"
   if page.respond_to? :should
     page.should have_no_xpath('//*', :text => regexp)
+    p "regexp 128!"
   else
     assert page.has_no_xpath?('//*', :text => regexp)
+    p "regexp 128?"
   end
 end
 
