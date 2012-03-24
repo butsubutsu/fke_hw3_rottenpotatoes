@@ -46,15 +46,15 @@ Then /I should see (no)?\s?movies with the following ratings: (.*)/ do|no,rating
   inValueList=lst.map{|r| r.to_s.tr('"','')}
   if no==true then
   inValueList.each do |k|
-    p '*'
-    p page.find("#movies tbody td").inspect
+    #p '*'
+    #p page.find("#movies tbody td").inspect
   assert  page.has_no_css?("#movies tbody td",:text=>k)  
   end
   else
      #assert page.find('table#movies').find('#movies ')#page.should have_link "/movies/"+m.id
   inValueList.each do |k|
-    p'??'
-    p page.find("#movies tbody td").inspect
+    #p'??'
+    #p page.find("#movies tbody td").inspect
   assert  page.has_css?("#movies tbody td",:text=>k)  
   end
   
