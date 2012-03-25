@@ -94,6 +94,26 @@ end
 
 # Make sure that one string (regexp) occurs before or after another one
 #   on the same page
+Then /I should see the movies sorted by: "(.*)"/ do |tag_text|
+  col_header_list=page.all(:css,"#movies thead tr th a")
+  sort_by_col_header=page.all(:css,"#movies thead tr th a").select{|el| el.text=~/^#{tag_text}$/}
+  sort_by_col_header_path=sort_by_col_header.map{|el| el.path}
+  p'PPPPPPPPPPPPPPPPPPPPPPPPPP'
+  p sort_by_col_header_path
+  p sort_by_col_header_path[0]
+  col_idx=/\/th\[(\d+)\]/.match(sort_by_col_header_path[0])[1]
+  p'QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ'
+  p col_idx
+  #row_list=page.all(:css,"#movies tbody tr")
+  cell_list=page.all(:css,"#movies tbody tr td:nth-child("+col_idx.to_s+")")
+  cell_values=cell_list.map{|el| el.text}
+  sorted_cell_values=cell_values.sort
+  indexes=Array(0..cell_values.length-1)
+  indexes.each do |idx|
+    assert cell_values[idx]==sorted_cell_values[idx],"Values "+cell_values[idx].to_s + ","+sorted_cell_values[idx].to_s+" do not match"
+  end
+  
+end
 
 Then /I should see "(.*)" before "(.*)"/ do |e1, e2|
 #  ensure that that e1 occurs before e2.

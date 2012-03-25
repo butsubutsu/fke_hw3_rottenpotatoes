@@ -29,9 +29,11 @@ Scenario: sort movies alphabetically
   
   # your steps here
   Given "Movie Title" is highlighted
-  Then I should see "Aladdin" before "Amelie" 
+  #Then I should see "Aladdin" before "Amelie"
+  Then I should see the movies sorted by: "Movie Title" 
 
 Scenario: sort movies in increasing order of release date
   # your steps here
   Given "Release Date" is highlighted
-  Then I should see "Aladdin" before "Amelie" 
+  #Then I should see "Aladdin" before "Amelie"
+  Then I should see the movies sorted by: "Release Date" 
