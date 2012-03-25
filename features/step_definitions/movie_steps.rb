@@ -33,63 +33,46 @@ When /I DEPRECATED (un)?check the following ratings: (.*)/ do |uncheck, rating_l
   lst.each do |r|
     cbn=checkboxName("ratings_",r)
     if (uncheck=~/un/)then
-      #lst.each{|r|  step "When I uncheck "+r+(checkboxName("ratings_",r))}
       uncheck(cbn)
     else
       check(cbn)
     end
   end
 end
-#Given I check the following ratings: G, PG, R
+
 Given /I (un)?check the following ratings: (.*)/ do |uncheck,rating_list|
   lst=rating_list.split(',')
   lst.each do |r|
     cbn=checkboxName("ratings_",r)
-    # p 'uncheck='
-    #p uncheck
     if (uncheck=~/un/)then
-      #lst.each{|r|  step "When I uncheck "+r+(checkboxName("ratings_",r))}
       uncheck(cbn)
     else
       check(cbn)
     end
   end
 end
-#(^"[^"]*"(,\s*"[^"]*")*)
+
 Then /I should see (no)?\s?movies with the following ratings: (.*)/ do|no,rating_list|
   lst=rating_list.split(',')
   inValueList=lst.map{|r| r.to_s.tr('"','')}
-
-  #p page.all(:css,"#movies tbody tr td:first-child+td")
-
-  #page.all(:css,"#movies tbody tr td:first-child+td").each{|el| p el.text}
   nodeTextList=page.all(:css,"#movies tbody tr td:first-child+td").map{|el| el.text}
   if no=~/no/ then
     inValueList.each do |k|
-    #assert  page.has_no_css?("#movies tbody tr td:first-child+td",:text=>/"k"/), "Found movie with rating "+k.to_s
       assert nodeTextList.select{|el| el=~/^#{k}$/}.count ==0,"Found  movie with rating "+k.to_s
-    #.each{|el| assert !(el.text=~/k/),"Found no movie with rating "+k.to_s}
     end
   else
-  #assert page.find('table#movies').find('#movies ')#page.should have_link "/movies/"+m.id
     inValueList.each do |k|
-    #page.all(:css,"#movies tbody tr td:first-child+td").each{|el| assert el.text=~/k/,"Found no movie with rating "+k.to_s}
       assert nodeTextList.select{|el| el=~/^#{k}$/}.count >0,"Found no movie with rating "+k.to_s
-    #assert  page.has_css?("#movies tbody tr td:first-child+td",:text=>/"k"/), "Found no movie with rating "+k.to_s
     end
   end
 
 end
 Then /^the following ratings should be (un)?checked: (.*)/ do |unchecked,rating_list|
-#pending # express the regexp above with the code you wish you had
   lst=rating_list.split(',')
   lst.each do |r|
     cbn=checkboxName("ratings_",r)
     field_checked = find_field(cbn)['checked']
-    p find_field(cbn)
-    p field_checked
     if (unchecked=~/un/)then
-      #lst.each{|r|  step "When I uncheck "+r+(checkboxName("ratings_",r))}
       if field_checked.respond_to? :should
         field_checked.should be_false
       else
